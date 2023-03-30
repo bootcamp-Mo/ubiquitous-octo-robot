@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/bootcamp-Mo/ubiquitous-octo-robot#readme",
   "dependencies": {
+    "inquire": "^0.4.8",
+    "inquirer": "^9.1.5",
     "jest": "^29.5.0"
   }
 }
