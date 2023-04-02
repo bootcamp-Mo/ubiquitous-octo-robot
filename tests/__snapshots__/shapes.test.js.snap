@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Circle render should render a circle SVG with the given font and color 1`] = `
+"<svg viewBox=\\"0 0 100 100\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+		<circle cx=\\"50\\" cy=\\"50\\" r=\\"50\\" fill=\\"blue\\" />
+		<text 
+		x=\\"50\\" 
+		y=\\"50\\" 
+		text-anchor=\\"middle\\" 
+		font-family=\\"Arial, sans-serif\\" 
+		font-size=\\"24px\\" 
+		fill=\\"white\\">Arial, sans-serif</text>
+	  </svg>"
+`;
+
+exports[`Square render should render a square SVG with the given font and color 1`] = `
+"<svg viewBox=\\"0 0 200 200\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+		<rect 
+		x=\\"50\\" 
+		y=\\"50\\" 
+		width=\\"100\\" 
+		height=\\"100\\" 
+		rx=\\"10\\" 
+		ry=\\"10\\" 
+		fill=\\"red\\" />
+		<text 
+		x=\\"100\\" 
+		y=\\"110\\" 
+		text-anchor=\\"middle\\" 
+		font-family=\\"cursive\\" 
+		font-size=\\"12px\\" 
+		fill=\\"white\\">cursive</text>
+	  </svg>"
+`;
+
+exports[`Triangle render should render a triangle SVG with the given font and color 1`] = `
+"<svg viewBox=\\"0 0 200 200\\" xmlns=\\"http://www.w3.org/2000/svg\\">
+		  <polygon points=\\"100,10 190,190 10,190\\" fill=\\"yellow\\" />
+		  <text 
+		  x=\\"100\\" 
+		  y=\\"100\\" 
+		  text-anchor=\\"middle\\" 
+		  font-family=\\"Georgia, serif\\" 
+		  font-size=\\"18px\\"  
+		  fill=\\"black\\">Georgia, serif</text>
+		</svg>"
+`;

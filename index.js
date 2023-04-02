@@ -1,10 +1,11 @@
-const inquirer = require('inquirer');
-const fs = require('fs');
-con
-
 const question = function () {
 	inquirer
 		.prompt([
+			{
+				type: 'input',
+				name: 'text',
+				message: 'Logo text:'
+			},
 			{
 				type: 'list',
 				name: 'font',
@@ -12,16 +13,22 @@ const question = function () {
 				choices: ['Serif', 'Sans Serif', 'Handwriting', 'Monospace'],
 			},
 			{
+				type: 'list',
+				name: 'size',
+				message: 'What font size?',
+				choices: ['Small', 'Medium', 'Large'],
+			},
+			{
 				type: "input",
 				name: "colorText",
-				message: "Enter a hexadecimal color code for the Text Color:",
+				message: "Enter a hexadecimal color code for the Text Color, make sure to include the #:",
 				validate: function (value) {
 					// Check if the value is a valid hexadecimal color code
 					var hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
 					if (hexRegex.test(value)) {
 						return true;
 					} else {
-						return "Please enter a valid hexadecimal color code.";
+						return "Please enter a valid hexadecimal color code, make sure to include the #:";
 					}
 				}
 			},
@@ -48,10 +55,31 @@ const question = function () {
 
 		])
 		.then((answers) => {
-			// The user's input is stored in the answers object
-			fs.writeFile('logo.svg', shapes(answers), (err) =>
-				err ? console.error(err) : console.log('Logo has been created')
-			)
+			const fontFamily = new FontFamily();
+			const selectedFontFamily = fontFamily.getFontFamily(answers.font)
+			const selectedFontSize = fontFamily.getFontSize(answers.size)
+			let shape;
+			switch (answers.shape) {
+				case 'Circle-ish':
+					shape = new Circle(50, answers.text, selectedFontFamily, selectedFontSize, answers.colorText, answers.colorShape);
+					break;
+				case 'Triangle-ish':
+					shape = new Triangle(100, 50, 50, answers.text, selectedFontFamily, selectedFontSize, answers.colorText, answers.colorShape);
+					break;
+				case 'Square-ish':
+					shape = new Square(50, answers.text, selectedFontFamily, selectedFontSize, answers.colorText, answers.colorShape);
+					break;
+				default:
+					console.error('Invalid shape:', answers.shape);
+					return;
+			}
+			const svg = shape.render(answers.text);
+			fs.writeFile('logo.svg', svg, (err) => {
+				if (err) {
+					console.error(err);
+				} else {
+					console.log('Logo has been created');
+				}
+			});
 		})
 }
-question()
