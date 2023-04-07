@@ -1,3 +1,7 @@
+const inquirer = require('inquirer');
+const fs = require('fs');
+const { Circle, Triangle, Square } = require('./lib/shapes.js');
+const { FontFamily } = require('./lib/text.js')
 const question = function () {
 	inquirer
 		.prompt([
@@ -83,3 +87,4 @@ const question = function () {
 			});
 		})
 }
+question();
