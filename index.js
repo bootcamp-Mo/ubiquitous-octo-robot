@@ -39,17 +39,30 @@ const question = function () {
 					{ name: 'Tan?', value: '#eceae4' },
 					{ name: 'Custom color', value: 'customShapeColor' },
 				],
+				when: (answers) => answers.colorShape !== 'customShapeColor',
+				filter: (input) => input.toLowerCase()
+			},
+			{
+				type: 'list',
+				name: 'colorShape',
+				message: 'What shape color?',
+				choices: [
+					{ name: 'Purple', value: '#cbaacb' },
+					{ name: 'Orange', value: '#ffaea5' },
+					{ name: 'Tan?', value: '#eceae4' },
+					{ name: 'Custom color', value: 'customShapeColor' },
+				],
 			},
 			{
 				type: 'input',
 				name: 'customColorShape',
-				message: "Enter a hexadecimal color code for the Shape Color:",
+				message: "Enter a hexadecimal color code for the Shape Color (e.g. FF0000):",
 				validate: function (value) {
-					var hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+					var hexRegex = /^[A-Fa-f0-9]{6}$/;
 					if (hexRegex.test(value)) {
 						return true;
 					} else {
-						return 'Please enter a valid hexadecimal color code (e.g. #FF0000):';
+						return 'Please enter a valid hexadecimal color code (e.g. FF0000):';
 					}
 				},
 				when: function (answers) {
@@ -57,22 +70,41 @@ const question = function () {
 				}
 			},
 			{
-				type: 'list',
+				type: 'input',
 				name: 'colorText',
-				message: 'What text color?',
-				choices: [
-					{ name: 'Pink', value: '#f1c0e8' },
-					{ name: 'Blue', value: '#90dbf4' },
-					{ name: 'Green', value: '#b9fbc0' },
-					{ name: 'Custom color', value: 'customTextColor' },
-				],
+				message: 'Enter a hexadecimal color code or select a preset text color (e.g. #f1c0e8, Pink):',
+				validate: function (value) {
+					var hexRegex = /^#?[A-Fa-f0-9]{6}$/;
+					if (hexRegex.test(value)) {
+						return true;
+					} else if (['Pink', 'Blue', 'Green'].includes(value)) {
+						return true;
+					} else {
+						return 'Please enter a valid hexadecimal color code (e.g. #FF0000) or select a preset text color.';
+					}
+				},
+				filter: function (input) {
+					switch (input.toLowerCase()) {
+						case 'pink':
+							return '#f1c0e8';
+						case 'blue':
+							return '#90dbf4';
+						case 'green':
+							return '#b9fbc0';
+						default:
+							return input.startsWith('#') ? input : `#${input}`;
+					}
+				},
+				when: function (answers) {
+					return answers.colorText !== 'customTextColor';
+				},
 			},
 			{
 				type: 'input',
-				name: 'customColorText',
+				name: 'colorText',
 				message: 'Enter a hexadecimal color code for the text color (e.g. #FF0000):',
 				validate: function (value) {
-					var hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+					var hexRegex = /^#?[A-Fa-f0-9]{6}$/;
 					if (hexRegex.test(value)) {
 						return true;
 					} else {
@@ -82,9 +114,9 @@ const question = function () {
 				when: function (answers) {
 					return answers.colorText === 'customTextColor';
 				}
-			}
-		])
-		.then((answers) => {
+			},
+		]).then((answers) => {
+			console.log('Answers from prompt:', answers); // print prompt answers
 			const fontFamily = new FontFamily();
 			const selectedFontFamily = fontFamily.getFontFamily(answers.font);
 			const selectedFontSize = fontFamily.getFontSize(answers.size);
@@ -121,10 +153,13 @@ const question = function () {
 				if (err) {
 					console.error(err);
 				} else {
-					console.log('Generated logo.svg');
+					console.log('Generated logo.svg'); // print success message
 				}
 			});
+		})
+		.catch((error) => {
+			console.error('Error occurred:', error); // print error message
 		});
 };
 
-question();
+question()
