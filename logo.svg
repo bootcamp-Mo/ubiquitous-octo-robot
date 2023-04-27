@@ -1,17 +1,15 @@
-<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-		<rect 
-		  x="0" 
-		  y="0" 
-		  width="50" 
-		  height="50" 
-		  fill="3a4bc3" />
-		<text
-		  x="25" 
-		  y="35" 
-		  text-anchor="middle" 
-		  font-family="cursive" 
-		  font-size="24px" 
-		  fill="febece">
-		  hey
-		</text>
+<svg viewBox="0 0 NaN NaN" xmlns="http://www.w3.org/2000/svg">
+		<circle 
+			cx="Arial, sans-serif" 
+			cy="Arial, sans-serif" 
+			r="Arial, sans-serif" 		
+			fill="#feebee" />
+			<text
+			x="Arial, sans-serif" 
+			y="Arial, sans-serif" 
+			text-anchor="middle" 
+			font-family="24px" 
+			font-size="#f1c0e8" 
+			fill="50"
+			>hey</text>
 	  </svg>

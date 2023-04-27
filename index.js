@@ -30,49 +30,66 @@ const question = function () {
 				choices: ['Square-ish', 'Circle', 'Triangle-ish'],
 			},
 			{
-				type: 'list',
-				name: 'colorShape',
-				message: 'What shape color?',
-				choices: [
-					{ name: 'Purple', value: '#cbaacb' },
-					{ name: 'Orange', value: '#ffaea5' },
-					{ name: 'Tan?', value: '#eceae4' },
-					{ name: 'Custom color', value: 'customShapeColor' },
-				],
-				when: (answers) => answers.colorShape !== 'customShapeColor',
-				filter: (input) => input.toLowerCase()
+				type: 'number',
+				name: 'size',
+				message: 'What size do you want the shape to be?',
+				validate: function (value) {
+					if (value < 10 || value > 500) {
+						return 'Please enter a size between 10 and 500.';
+					} else {
+						return true;
+					}
+				}
 			},
 			{
-				type: 'list',
+				type: 'input',
 				name: 'colorShape',
-				message: 'What shape color?',
-				choices: [
-					{ name: 'Purple', value: '#cbaacb' },
-					{ name: 'Orange', value: '#ffaea5' },
-					{ name: 'Tan?', value: '#eceae4' },
-					{ name: 'Custom color', value: 'customShapeColor' },
-				],
+				message: 'Enter a hexadecimal color code or select a preset color for the shape:',
+				validate: function (value) {
+					var hexRegex = /^#?[A-Fa-f0-9]{6}$/;
+					if (hexRegex.test(value)) {
+						return true;
+					} else if (['Purple', 'Blue', 'Green'].includes(value)) {
+						return true;
+					} else {
+						return 'Please enter a valid hexadecimal color code (e.g. #FF0000) or select a preset color.';
+					}
+				},
+				filter: function (input) {
+					switch (input.toLowerCase()) {
+						case 'purple':
+							return '#cbaacb';
+						case 'orange':
+							return '#ffaea5';
+						case 'light tan':
+							return '#eceae4';
+						case 'custom color':
+							return 'Custom color';
+						default:
+							return input.startsWith('#') ? input : `#${input}`;
+					}
+				}
 			},
 			{
 				type: 'input',
 				name: 'customColorShape',
-				message: "Enter a hexadecimal color code for the Shape Color (e.g. FF0000):",
+				message: 'Enter a hexadecimal color code for the custom shape color (e.g. #FF0000):',
 				validate: function (value) {
-					var hexRegex = /^[A-Fa-f0-9]{6}$/;
+					var hexRegex = /^#?[A-Fa-f0-9]{6}$/;
 					if (hexRegex.test(value)) {
 						return true;
 					} else {
-						return 'Please enter a valid hexadecimal color code (e.g. FF0000):';
+						return 'Please enter a valid hexadecimal color code (e.g. #FF0000):';
 					}
 				},
 				when: function (answers) {
-					return answers.colorShape === 'customShapeColor';
+					return answers.colorShape === 'Custom color';
 				}
 			},
 			{
 				type: 'input',
 				name: 'colorText',
-				message: 'Enter a hexadecimal color code or select a preset text color (e.g. #f1c0e8, Pink):',
+				message: 'Enter a hexadecimal color code or select a preset Shape color (e.g. #f1c0e8, Pink):',
 				validate: function (value) {
 					var hexRegex = /^#?[A-Fa-f0-9]{6}$/;
 					if (hexRegex.test(value)) {
@@ -97,11 +114,11 @@ const question = function () {
 				},
 				when: function (answers) {
 					return answers.colorText !== 'customTextColor';
-				},
+				}
 			},
 			{
 				type: 'input',
-				name: 'colorText',
+				name: 'customColorText',
 				message: 'Enter a hexadecimal color code for the text color (e.g. #FF0000):',
 				validate: function (value) {
 					var hexRegex = /^#?[A-Fa-f0-9]{6}$/;
@@ -113,9 +130,13 @@ const question = function () {
 				},
 				when: function (answers) {
 					return answers.colorText === 'customTextColor';
+				},
+				filter: function (input) {
+					return input.startsWith('#') ? input : `#${input}`;
 				}
-			},
-		]).then((answers) => {
+			}
+		])
+		.then((answers) => {
 			console.log('Answers from prompt:', answers); // print prompt answers
 			const fontFamily = new FontFamily();
 			const selectedFontFamily = fontFamily.getFontFamily(answers.font);
@@ -128,19 +149,19 @@ const question = function () {
 				colorShape = answers.customColorShape;
 			}
 			if (answers.colorText === 'Custom color') {
-				colorText = answers.customColorText;
+				colorText = answers.customTextColor;
 			}
 
 			let shape;
 			switch (answers.shape) {
 				case 'Circle':
-					shape = new Circle(50, colorShape, selectedFontFamily, selectedFontSize, colorText, answers.text);
+					shape = new Circle(colorText, colorShape, 50, selectedFontFamily, answers.size, text, customColorText, customColorShape);
 					break;
 				case 'Triangle':
-					shape = new Triangle(colorShape, selectedFontFamily, selectedFontSize, colorText, answers.text);
+					shape = new Triangle(colorText, colorShape, selectedFontFamily, answers.size, text, customColorText, customColorShape);
 					break;
 				case 'Square-ish':
-					shape = new Square(50, colorShape, selectedFontFamily, selectedFontSize, colorText, answers.text);
+					shape = new Square(colorText, colorShape, 50, selectedFontFamily, answers.size, text, customColorText, customColorShape);
 					break;
 				default:
 					console.error('Invalid shape:', answers.shape);
@@ -148,7 +169,6 @@ const question = function () {
 			}
 
 			const svg = shape.render();
-
 			fs.writeFile('logo.svg', svg, (err) => {
 				if (err) {
 					console.error(err);
@@ -161,5 +181,5 @@ const question = function () {
 			console.error('Error occurred:', error); // print error message
 		});
 };
+question();
 
-question()
