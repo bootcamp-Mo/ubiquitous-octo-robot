@@ -98,3 +98,4 @@ You may need to add additional files in the `lib` folder for handling user input
 * [Text in SVG](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Texts)
 
 * [SVG VS Code extension](https://marketplace.visualstudio.com/items?itemName=jock.svg)
+[svgGenVideo.webm](https://github.com/bootcamp-Mo/ubiquitous-octo-robot/assets/122568039/ed7c60fc-bfc5-45b5-9ead-9fec1fff5e6b)
