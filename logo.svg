@@ -1,0 +1,15 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+		<rect 
+		  x="50" 
+		  y="50" 
+		  width="100" 
+		  height="100" 
+		  fill="#475ada" />
+		<text
+		  x="100" 
+		  y="120" 
+		  text-anchor="middle" 
+		  font-family="cursive" 
+		  fill="#b2b4cb"
+		  >hey</text>
+	  </svg>
