@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const inquirer = require('inquirer');
 const fs = require('fs');
 const { Circle, Triangle, Square } = require('./lib/shapes.js');
@@ -12,12 +13,7 @@ const question = function () {
 				message: 'Enter the text:',
 				default: 'Sample Text',
 				validate: function (input) {
-					const words = input.trim().split(/\s+/); // split on any whitespace characters
-					let newText = '';
-					for (let i = 0; i < Math.min(words.length, 3); i++) {
-						newText += words[i][0];
-					}
-					return newText.length > 0 ? true : 'Please enter at least one word';
+					return input.length === 3 ? true : 'Please enter exactly three characters';
 				},
 			},
 			{
@@ -32,12 +28,12 @@ const question = function () {
 				message: 'What Font style?',
 				choices: ['Serif', 'Sans Serif', 'Handwriting', 'Monospace'],
 			},
-			{
-				type: 'list',
-				name: 'sizeFont',
-				message: 'Choose the font size:',
-				choices: ['small', 'medium', 'large'],
-			},
+			// {
+			// 	type: 'list',
+			// 	name: 'sizeFont',
+			// 	message: 'Choose the font size:',
+			// 	choices: ['small', 'medium', 'large'],
+			// },
 			{
 				type: 'list',
 				name: 'colorShape',
@@ -52,7 +48,7 @@ const question = function () {
 					return '#' + input;
 				},
 				when: function (answers) {
-					return answers.colorText === 'Custom Text color';
+					return answers.colorShape === 'Custom Shape color';
 				},
 			},
 			{
@@ -77,7 +73,7 @@ const question = function () {
 			console.log('Answers from prompt:', answers); // print prompt answers
 			const fontFamily = new FontFamily();
 			const selectedFontFamily = fontFamily.getFontFamily(answers.font);
-			const selectedFontSize = fontFamily.getFontSize(answers.sizeFont);
+			// const selectedFontSize = fontFamily.getFontFamily(answers.size)
 
 			let colorShape = answers.colorShape;
 			let colorText = answers.colorText;
@@ -95,7 +91,7 @@ const question = function () {
 						colorText,
 						colorShape,
 						selectedFontFamily,
-						selectedFontSize,
+						// selectedFontSize,
 						answers.text
 					);
 					break;
@@ -104,6 +100,7 @@ const question = function () {
 						colorText,
 						colorShape,
 						selectedFontFamily,
+						// selectedFontSize,
 						answers.text
 					);
 					break;
@@ -112,7 +109,7 @@ const question = function () {
 						colorText,
 						colorShape,
 						selectedFontFamily,
-						selectedFontSize,
+						// selectedFontSize,
 						answers.text
 					);
 					break;
