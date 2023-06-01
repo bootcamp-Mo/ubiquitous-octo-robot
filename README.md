@@ -4,7 +4,8 @@ Object-oriented Programming: SVG Logo Maker
 
 ## Description
 this is a SVG logo generator
-        
+![logo](https://github.com/bootcamp-Mo/ubiquitous-octo-robot/assets/122568039/5868b7f3-6293-4798-bdbc-cea11be35b1a)
+
 ## Table of Contents
 1. [Description](#description)
 2. [Installation](#installation)
